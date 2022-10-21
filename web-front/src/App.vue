@@ -1,8 +1,26 @@
+<script lang="ts" setup>
+import Login from "./views/login/index.vue";
+import LayOut from "./views/layout/LayOut.vue";
+import { Ref, ref } from "vue";
+import router, { asyncRouterMap } from "./router";
+
+const isLogin: Ref<boolean> = ref(localStorage.getItem("token") ? false : true);
+
+const closeLogin = async (val: boolean) => {
+  asyncRouterMap.forEach((routerItem) => {
+    router.addRoute(routerItem);
+  });
+  router.push("/admin/home");
+  isLogin.value = val;
+};
+</script>
+
 <template>
-  <router-view />
+  <Login v-if="isLogin" @closeLogin="closeLogin"></Login>
+  <LayOut v-else></LayOut>
 </template>
 
-<style>
+<style lang="scss">
 * {
   padding: 0;
   margin: 0;
@@ -21,5 +39,15 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+}
+
+Login {
+  width: 100%;
+  height: 100%;
+}
+
+LayOut {
+  width: 100%;
+  height: 100%;
 }
 </style>

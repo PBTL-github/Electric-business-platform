@@ -25,6 +25,7 @@ const selectUser = async (username: string, password: string) => {
       const userItem = await userRepository.findOne({
         where: { username: username, password: password },
       });
+      console.log(username, password);
       if (userItem) {
         const uuid = userItem.uuid;
         const token = getToken(uuid);
