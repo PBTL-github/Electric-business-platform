@@ -1,9 +1,15 @@
 <script lang="ts" setup></script>
 
 <template>
-  <div class="contain">
+  <section class="app-main">
     <router-view />
-  </div>
+  </section>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.app-main {
+  & {
+    padding: 20px;
+  }
+}
+</style>

@@ -70,6 +70,7 @@ router.afterEach(async (to, from) => {
     height: 50px;
     border-bottom: solid 0.5px #e6e6e6;
     padding-left: 20px;
+    margin-bottom: 30px;
   }
 
   .el-row {
