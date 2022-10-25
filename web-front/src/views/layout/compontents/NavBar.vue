@@ -5,12 +5,6 @@ import { Ref, reactive } from "vue";
 import { RouteRecordName, RouteRecordRaw } from "vue-router";
 
 const menuList: Ref<Array<RouteRecordRaw>> = reactive(store.getters.getAdminRouters);
-const handleOpen = (key: string, keyPath: string[]) => {
-  // console.log(key, keyPath);
-};
-const handleClose = (key: string, keyPath: string[]) => {
-  // console.log(key, keyPath);
-};
 
 const routerPush = (name: RouteRecordName) => {
   router.push({ name });
@@ -27,8 +21,6 @@ const routerPush = (name: RouteRecordName) => {
             background-color="#304156"
             :default-active="($route.meta.index as string)"
             text-color="#bfcbd9"
-            @open="handleOpen"
-            @close="handleClose"
           >
             <template v-for="(menuItem, idx) in menuList[0].children" :key="idx">
               <el-menu-item
