@@ -13,9 +13,20 @@ router.afterEach(async (to, from) => {
   if (List) {
     if (List[0].name !== "home") {
       let newArray: Array<any> = [{ name: "home", meta: { title: "首页" } }];
-      List = [...newArray, ...List];
+      List = newArray.concat(List);
     }
-    breadCrumbList.value = List;
+
+    if (breadCrumbList.value.length === List.length) {
+      for (let i = 0; i < List.length; i++) {
+        if (breadCrumbList.value[i].name !== List[i].name) {
+          breadCrumbList.value.length = i;
+          break;
+        }
+      }
+    }
+    setTimeout(() => {
+      breadCrumbList.value = List;
+    }, 0);
   }
 });
 </script>
