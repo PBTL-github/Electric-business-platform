@@ -1,8 +1,67 @@
 <script lang="ts" setup>
 import BlockWrapper from "./components/block-wrapper.vue";
+import TotalChart from "./components/TotalChart.vue";
 import { Ref, ref, reactive } from "vue";
 
-const orderCountDate: Ref<string> = ref("");
+/**
+ * @description: 绑定日期控件
+ */
+const orderDate = ref<Array<Date>>(new Array<any>());
+orderDate.value = [new Date("2018-11-01"), new Date("2018-11-10")];
+
+const xAxisData = ref(new Array<any>());
+const orderCountList = ref(new Array<number>());
+const orderTotalList = ref(new Array<number>());
+/**
+ * @description: 当日期控件的数值变化时，更新图表
+ * @param {Array<Date>} val
+ * @return {*}
+ */
+const changeChart = (val: Array<Date>): void => {
+  setOrderData();
+};
+
+const setOrderData = () => {
+  resetOrderData();
+  let start = orderDate.value[0].getTime();
+  let end = orderDate.value[1].getTime();
+  orderData.forEach((item) => {
+    let itemTime = new Date(item.date);
+    if (itemTime.getTime() >= start && itemTime.getTime() <= end) {
+      xAxisData.value.push(item.date);
+      orderCountList.value.push(item.orderCount);
+      orderTotalList.value.push(item.orderAmount);
+    }
+  });
+};
+
+const resetOrderData = () => {
+  xAxisData.value.length = 0;
+  orderCountList.value.length = 0;
+  orderTotalList.value.length = 0;
+};
+
+const orderData = [
+  { date: "2018-11-01", orderCount: 10, orderAmount: 1093 },
+  { date: "2018-11-02", orderCount: 20, orderAmount: 2230 },
+  { date: "2018-11-03", orderCount: 33, orderAmount: 3623 },
+  { date: "2018-11-04", orderCount: 50, orderAmount: 6423 },
+  { date: "2018-11-05", orderCount: 80, orderAmount: 8492 },
+  { date: "2018-11-06", orderCount: 60, orderAmount: 6293 },
+  { date: "2018-11-07", orderCount: 20, orderAmount: 2293 },
+  { date: "2018-11-08", orderCount: 60, orderAmount: 6293 },
+  { date: "2018-11-09", orderCount: 50, orderAmount: 5293 },
+  { date: "2018-11-10", orderCount: 30, orderAmount: 3293 },
+  { date: "2018-11-11", orderCount: 20, orderAmount: 2293 },
+  { date: "2018-11-12", orderCount: 80, orderAmount: 8293 },
+  { date: "2018-11-13", orderCount: 100, orderAmount: 10293 },
+  { date: "2018-11-14", orderCount: 10, orderAmount: 1293 },
+  { date: "2018-11-15", orderCount: 40, orderAmount: 4293 },
+];
+
+setTimeout(() => {
+  setOrderData();
+}, 500);
 </script>
 
 <template>
@@ -233,12 +292,23 @@ const orderCountDate: Ref<string> = ref("");
           <el-col :span="20">
             <div class="order-total-char">
               <el-date-picker
-                v-model="orderCountDate"
-                type="monthrange"
+                style="float: right"
+                size="small"
+                v-model="orderDate"
+                type="daterange"
+                unlink-panels
                 start-placeholder="开始日期"
                 range-separator="到"
                 end-placeholder="结束日期"
+                @change="changeChart"
               />
+              <div class="line-char">
+                <total-chart
+                  :x-axis-data="xAxisData"
+                  :order-count-list="orderCountList"
+                  :order-total-list="orderTotalList"
+                />
+              </div>
             </div>
           </el-col>
         </el-row>
@@ -437,7 +507,18 @@ const orderCountDate: Ref<string> = ref("");
     }
     .order-total-char {
       & {
+        width: 100%;
+        height: 100%;
         padding: 10px;
+      }
+
+      .line-char {
+        & {
+          padding-top: 25px;
+          margin: 0 auto;
+          width: 95%;
+          height: 98%;
+        }
       }
     }
   }
