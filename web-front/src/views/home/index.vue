@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import BlockWrapper from "./components/block-wrapper.vue";
+import BlockWrapper from "@/components/block-wrapper/index.vue";
 import TotalChart from "./components/TotalChart.vue";
-import { Ref, ref, reactive } from "vue";
+import { ref } from "vue";
 
 /**
  * @description: 绑定日期控件

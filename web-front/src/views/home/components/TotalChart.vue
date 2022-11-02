@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import ECharts from "echarts";
 import VChart from "vue-echarts";
-import { reactive, ref, watch } from "vue";
+import { ref } from "vue";
 import { use } from "echarts/core";
 import { LineChart, LineSeriesOption } from "echarts/charts";
 import {

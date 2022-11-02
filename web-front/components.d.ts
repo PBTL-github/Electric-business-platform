@@ -7,6 +7,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    BlockWrapper: typeof import('./src/components/block-wrapper/index.vue')['default']
     ElBotton: typeof import('element-plus/es')['ElBotton']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
     ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem']
