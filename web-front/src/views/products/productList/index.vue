@@ -1,7 +1,9 @@
 <script lang="ts" setup>
 import BlockWrapper from "@/components/block-wrapper/index.vue";
-import { reactive } from "vue";
-import { ListQuery, defaultListQuery } from "./components/interface";
+import { ref, reactive } from "vue";
+import { ListQuery, defaultListQuery, StateTableData } from "./components/interface";
+import { stateData } from "./components/stateData";
+import { batchOperations } from "./components/batchOperation";
 
 /**
  * @description: 商品分类
@@ -83,9 +85,15 @@ const reviewStateOption = reactive([
  * @description: 查询对象
  */
 const listQuery: ListQuery = reactive(Object.assign({}, defaultListQuery));
+const tableData: Array<StateTableData> = reactive(stateData);
+const batchOperateType = ref();
 
 const resetListQuery = () => {
   Object.assign(listQuery, defaultListQuery);
+};
+
+const publishChange = (...a: any) => {
+  console.log(...a);
 };
 </script>
 
@@ -141,6 +149,7 @@ const resetListQuery = () => {
         </el-form-item>
       </el-form>
     </block-wrapper>
+
     <block-wrapper class="data-list">
       <div class="data-list-title">
         <el-icon style="vertical-align: middle; margin-right: 10px">
@@ -154,6 +163,98 @@ const resetListQuery = () => {
         >
       </div>
     </block-wrapper>
+
+    <block-wrapper class="table-contain">
+      <el-table :data="tableData" style="width: 100%" border>
+        <el-table-column type="selection" width="60" align="center"></el-table-column>
+        <el-table-column label="编号" width="100" align="center">
+          <template #default="scope">{{ scope.row.id }}</template>
+        </el-table-column>
+        <el-table-column label="商品图片" width="120" align="center">
+          <template #default="scope">
+            <img style="height: 80px" :src="scope.row.pic" />
+          </template>
+        </el-table-column>
+        <el-table-column label="商品名称" align="center">
+          <template #default="scope">
+            <p>{{ scope.row.name }}</p>
+            <p>品牌: {{ scope.row.brandName }}</p>
+          </template>
+        </el-table-column>
+        <el-table-column label="价格/货号" width="120" align="center">
+          <template #default="scope">
+            <p>价格：￥{{ scope.row.price }}</p>
+            <p>货号：{{ scope.row.proNO }}</p>
+          </template>
+        </el-table-column>
+        <el-table-column label="标签" width="140" align="center">
+          <template #default="scope">
+            <p>
+              上架：
+              <el-switch
+                @change="publishChange(scope.row.publishState)"
+                v-model="scope.row.publishState"
+                :active-value="1"
+                :inactive-value="0"
+              />
+            </p>
+            <p>
+              新品：
+              <el-switch v-model="scope.row.newProState" :active-value="1" :inactive-value="0" />
+            </p>
+            <p>
+              推荐：
+              <el-switch v-model="scope.row.recommandState" :active-value="1" :inactive-value="0" />
+            </p>
+          </template>
+        </el-table-column>
+        <el-table-column label="排序" width="100" align="center">
+          <template #default="scope">
+            {{ scope.row.sort }}
+          </template>
+        </el-table-column>
+        <el-table-column label="SKU库存" width="100" align="center"></el-table-column>
+        <el-table-column label="销量" width="100" align="center">
+          <template #default="scope">
+            {{ scope.row.sales }}
+          </template>
+        </el-table-column>
+        <el-table-column label="审核状态" width="100" align="center">
+          <template #default="scope">
+            <p>{{ scope.row.reviewState }}</p>
+            <p>
+              <el-button type="primary" link>审核详情</el-button>
+            </p>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" width="160" align="center">
+          <template #default="scope">
+            <p style="margin-bottom: 5px">
+              <el-button size="small">查看</el-button>
+              <el-button size="small">编辑</el-button>
+            </p>
+            <p>
+              <el-button size="small">日志</el-button>
+              <el-button size="small" type="danger">删除</el-button>
+            </p>
+          </template>
+        </el-table-column>
+      </el-table>
+    </block-wrapper>
+
+    <div class="batch-operation-contain">
+      <el-select v-model="batchOperateType" size="large" placeholder="批量操作">
+        <el-option
+          v-for="(item, idx) in batchOperations"
+          :key="idx"
+          :label="item.label"
+          :value="item.value"
+        ></el-option>
+      </el-select>
+      <el-button style="margin-left: 10px" size="large" type="primary">确定</el-button>
+    </div>
+
+    <div class="paging-contain"></div>
   </div>
 </template>
 
@@ -197,6 +298,26 @@ const resetListQuery = () => {
       & {
         font-size: 16px;
       }
+    }
+  }
+
+  .table-contain {
+    & {
+      margin-top: 20px;
+    }
+  }
+
+  .batch-operation-contain {
+    & {
+      display: inline-block;
+      margin-top: 20px;
+    }
+  }
+
+  .paging-contain {
+    & {
+      float: right;
+      margin-top: 20px;
     }
   }
 }
