@@ -19,11 +19,11 @@ const batchOperations: Array<any> = reactive([
   },
   {
     label: "设为新品",
-    value: "newOn",
+    value: "newProOn",
   },
   {
     label: "取消新品",
-    value: "newOff",
+    value: "newProOff",
   },
   {
     label: "转移到分类",

@@ -1,9 +1,11 @@
 <script lang="ts" setup>
 import BlockWrapper from "@/components/block-wrapper/index.vue";
-import { ref, reactive } from "vue";
+import { ref, reactive, Ref } from "vue";
 import { ListQuery, defaultListQuery, StateTableData } from "./components/interface";
 import { stateData } from "./components/stateData";
 import { batchOperations } from "./components/batchOperation";
+import { PagingOption } from "./components/pagingOptions";
+import { ElMessage, ElMessageBox } from "element-plus";
 
 /**
  * @description: 商品分类
@@ -85,16 +87,152 @@ const reviewStateOption = reactive([
  * @description: 查询对象
  */
 const listQuery: ListQuery = reactive(Object.assign({}, defaultListQuery));
-const tableData: Array<StateTableData> = reactive(stateData);
-const batchOperateType = ref();
+const tableData: Ref<Array<Array<StateTableData>>> = ref();
+const batchOperateType: Ref<string> = ref();
+const multiSelection: Array<StateTableData> = new Array<StateTableData>();
 
 const resetListQuery = () => {
   Object.assign(listQuery, defaultListQuery);
 };
 
-const publishChange = (...a: any) => {
-  console.log(...a);
+/**
+ * @description: 分页选项
+ */
+const pagingOptions: PagingOption = reactive({
+  currentPage: 1,
+  pageSize: 5,
+  pageSizes: [5, 10, 15],
+  total: stateData.length,
+  background: true,
+  layout: "total, sizes, prev, pager, next, jumper",
+  /**
+   * @description: 处理每页数目更改
+   * @return {*}
+   */
+  handleSizeChange: (): void => {
+    let totalPageData = new Array<Array<StateTableData>>(
+      Math.ceil(stateData.length / pagingOptions.pageSize)
+    );
+    for (let i = 0; i < totalPageData.length; i++) {
+      totalPageData[i] = stateData.slice(
+        pagingOptions.pageSize * i,
+        pagingOptions.pageSize * (i + 1)
+      );
+    }
+    tableData.value = totalPageData;
+  },
+});
+
+const handleSelectionChange = (val: Array<StateTableData>): void => {
+  multiSelection.length = 0;
+  Object.assign(multiSelection, val);
 };
+
+/**
+ * @description: 更新商品上架状态
+ * @param {1 | 0} isOn: 1为激活， 0为不激活
+ * @param {Array<string>} ids： 需要更新的索引数组
+ */
+const updatePulishState = (isOn: 1 | 0, ids: Array<string>) => {
+  for (let i = 0; i < ids.length; i++) {
+    stateData.forEach((item) => {
+      if (item.id === ids[i]) {
+        item.publishState = isOn;
+      }
+    });
+  }
+  pagingOptions.handleSizeChange();
+};
+
+/**
+ * @description: 更新商品推荐状态
+ * @param {1 | 0} isOn: 1为激活， 0为不激活
+ * @param {Array<string>} ids： 需要更新的索引数组
+ */
+const updateRecommendState = (isOn: 1 | 0, ids: Array<string>) => {
+  for (let i = 0; i < ids.length; i++) {
+    stateData.forEach((item) => {
+      if (item.id === ids[i]) {
+        item.recommandState = isOn;
+      }
+    });
+  }
+  pagingOptions.handleSizeChange();
+};
+
+/**
+ * @description: 更新商品新品状态
+ * @param {1 | 0} isOn: 1为激活， 0为不激活
+ * @param {Array<string>} ids： 需要更新的索引数组
+ */
+const updateNewProState = (isOn: 1 | 0, ids: Array<string>) => {
+  for (let i = 0; i < ids.length; i++) {
+    stateData.forEach((item) => {
+      if (item.id === ids[i]) {
+        item.newProState = isOn;
+      }
+    });
+  }
+  pagingOptions.handleSizeChange();
+};
+
+const handleBatch = () => {
+  if (!batchOperateType.value) {
+    ElMessage({
+      message: "请选择操作类型",
+      type: "warning",
+      duration: 1500,
+    });
+    return;
+  }
+  if (multiSelection.length < 1) {
+    ElMessage({
+      message: "请选择要操作的商品",
+      type: "warning",
+      duration: 1500,
+    });
+    return;
+  }
+  ElMessageBox({
+    title: "提示",
+    message: "是否要进行该批量操作?",
+    type: "warning",
+    showCancelButton: true,
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+  }).then(() => {
+    let ids = new Array<string>(multiSelection.length);
+    for (let i = 0; i < multiSelection.length; i++) {
+      ids[i] = multiSelection[i].id;
+    }
+    switch (batchOperateType.value) {
+      case "publishOn":
+        updatePulishState(1, ids);
+        break;
+      case "publishOff":
+        updatePulishState(0, ids);
+        break;
+      case "recommendOn":
+        updateRecommendState(1, ids);
+        break;
+      case "recommendOff":
+        updateRecommendState(0, ids);
+        break;
+      case "newProOn":
+        updateNewProState(1, ids);
+        break;
+      case "newProOff":
+        updateNewProState(0, ids);
+        break;
+      case "transferCategory":
+        break;
+      case "recycle":
+        break;
+    }
+  });
+};
+
+pagingOptions.handleSizeChange();
 </script>
 
 <template>
@@ -165,7 +303,12 @@ const publishChange = (...a: any) => {
     </block-wrapper>
 
     <block-wrapper class="table-contain">
-      <el-table :data="tableData" style="width: 100%" border>
+      <el-table
+        @selection-change="handleSelectionChange"
+        :data="tableData[pagingOptions.currentPage - 1]"
+        style="width: 100%"
+        border
+      >
         <el-table-column type="selection" width="60" align="center"></el-table-column>
         <el-table-column label="编号" width="100" align="center">
           <template #default="scope">{{ scope.row.id }}</template>
@@ -191,12 +334,7 @@ const publishChange = (...a: any) => {
           <template #default="scope">
             <p>
               上架：
-              <el-switch
-                @change="publishChange(scope.row.publishState)"
-                v-model="scope.row.publishState"
-                :active-value="1"
-                :inactive-value="0"
-              />
+              <el-switch v-model="scope.row.publishState" :active-value="1" :inactive-value="0" />
             </p>
             <p>
               新品：
@@ -251,10 +389,22 @@ const publishChange = (...a: any) => {
           :value="item.value"
         ></el-option>
       </el-select>
-      <el-button style="margin-left: 10px" size="large" type="primary">确定</el-button>
+      <el-button @click="handleBatch" style="margin-left: 10px" size="large" type="primary"
+        >确定</el-button
+      >
     </div>
 
-    <div class="paging-contain"></div>
+    <div class="paging-contain">
+      <el-pagination
+        v-model:current-page="pagingOptions.currentPage"
+        v-model:page-size="pagingOptions.pageSize"
+        :page-sizes="pagingOptions.pageSizes"
+        :background="pagingOptions.background"
+        :total="pagingOptions.total"
+        :layout="pagingOptions.layout"
+        @size-change="pagingOptions.handleSizeChange"
+      />
+    </div>
   </div>
 </template>
 
