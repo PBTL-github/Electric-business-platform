@@ -24,7 +24,10 @@ const closeLogin = async (val: boolean) => {
 * {
   padding: 0;
   margin: 0;
-  box-sizing: border-box;
+  box-sizing: inherit;
+}
+:after, :before {
+  box-sizing: inherit;
 }
 
 html,
@@ -34,6 +37,7 @@ body {
 }
 
 #app {
+  min-height: 100%;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

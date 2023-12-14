@@ -1,13 +1,13 @@
 <script lang="ts" setup>
-import BlockWrapper from "@/components/block-wrapper/index.vue";
-import TotalChart from "./components/TotalChart.vue";
-import { ref } from "vue";
+import BlockWrapper from '@/components/block-wrapper/index.vue';
+import TotalChart from './components/TotalChart.vue';
+import { ref } from 'vue';
 
 /**
  * @description: 绑定日期控件
  */
 const orderDate = ref<Array<Date>>(new Array<any>());
-orderDate.value = [new Date("2018-11-01"), new Date("2018-11-10")];
+orderDate.value = [new Date('2018-11-01'), new Date('2018-11-10')];
 
 const xAxisData = ref(new Array<any>());
 const orderCountList = ref(new Array<number>());
@@ -25,7 +25,7 @@ const setOrderData = () => {
   resetOrderData();
   let start = orderDate.value[0].getTime();
   let end = orderDate.value[1].getTime();
-  orderData.forEach((item) => {
+  orderData.forEach(item => {
     let itemTime = new Date(item.date);
     if (itemTime.getTime() >= start && itemTime.getTime() <= end) {
       xAxisData.value.push(item.date);
@@ -42,21 +42,21 @@ const resetOrderData = () => {
 };
 
 const orderData = [
-  { date: "2018-11-01", orderCount: 10, orderAmount: 1093 },
-  { date: "2018-11-02", orderCount: 20, orderAmount: 2230 },
-  { date: "2018-11-03", orderCount: 33, orderAmount: 3623 },
-  { date: "2018-11-04", orderCount: 50, orderAmount: 6423 },
-  { date: "2018-11-05", orderCount: 80, orderAmount: 8492 },
-  { date: "2018-11-06", orderCount: 60, orderAmount: 6293 },
-  { date: "2018-11-07", orderCount: 20, orderAmount: 2293 },
-  { date: "2018-11-08", orderCount: 60, orderAmount: 6293 },
-  { date: "2018-11-09", orderCount: 50, orderAmount: 5293 },
-  { date: "2018-11-10", orderCount: 30, orderAmount: 3293 },
-  { date: "2018-11-11", orderCount: 20, orderAmount: 2293 },
-  { date: "2018-11-12", orderCount: 80, orderAmount: 8293 },
-  { date: "2018-11-13", orderCount: 100, orderAmount: 10293 },
-  { date: "2018-11-14", orderCount: 10, orderAmount: 1293 },
-  { date: "2018-11-15", orderCount: 40, orderAmount: 4293 },
+  { date: '2018-11-01', orderCount: 10, orderAmount: 1093 },
+  { date: '2018-11-02', orderCount: 20, orderAmount: 2230 },
+  { date: '2018-11-03', orderCount: 33, orderAmount: 3623 },
+  { date: '2018-11-04', orderCount: 50, orderAmount: 6423 },
+  { date: '2018-11-05', orderCount: 80, orderAmount: 8492 },
+  { date: '2018-11-06', orderCount: 60, orderAmount: 6293 },
+  { date: '2018-11-07', orderCount: 20, orderAmount: 2293 },
+  { date: '2018-11-08', orderCount: 60, orderAmount: 6293 },
+  { date: '2018-11-09', orderCount: 50, orderAmount: 5293 },
+  { date: '2018-11-10', orderCount: 30, orderAmount: 3293 },
+  { date: '2018-11-11', orderCount: 20, orderAmount: 2293 },
+  { date: '2018-11-12', orderCount: 80, orderAmount: 8293 },
+  { date: '2018-11-13', orderCount: 100, orderAmount: 10293 },
+  { date: '2018-11-14', orderCount: 10, orderAmount: 1293 },
+  { date: '2018-11-15', orderCount: 40, orderAmount: 4293 },
 ];
 
 setTimeout(() => {
@@ -75,8 +75,9 @@ setTimeout(() => {
               <a
                 href="https://github.com/PBTL-github/Electric-business-platform/tree/main/web-front"
                 target="_blank"
-                >Electric-web-front</a
               >
+                Electric-web-front
+              </a>
             </div>
           </block-wrapper>
         </el-col>
@@ -87,8 +88,22 @@ setTimeout(() => {
               <a
                 href="https://github.com/PBTL-github/Electric-business-platform/tree/main/web-back"
                 target="_blank"
-                >Electric-web-back</a
               >
+                Electric-web-back
+              </a>
+            </div>
+          </block-wrapper>
+        </el-col>
+        <el-col :span="6">
+          <block-wrapper>
+            <div class="title">后端项目</div>
+            <div class="address-contain">
+              <a
+                href="https://github.com/PBTL-github/Electric-business-platform/tree/main/web-back"
+                target="_blank"
+              >
+                Electric-web-back
+              </a>
             </div>
           </block-wrapper>
         </el-col>
@@ -320,7 +335,9 @@ setTimeout(() => {
 <style lang="scss" scoped>
 .app-contain {
   & {
-    width: 1000px;
+    width: 100%;
+    min-width: 1000px;
+    max-width: 1400px;
     margin: 0 auto;
     font-size: 20px;
   }
@@ -353,7 +370,7 @@ setTimeout(() => {
       & {
         padding: 20px;
         display: flex;
-        justify-content: space-between;
+        justify-content: left;
         align-items: center;
       }
 
@@ -362,6 +379,7 @@ setTimeout(() => {
           width: 60px;
           height: 60px;
           color: #64a2ff;
+          margin-right: 20px;
         }
         svg {
           width: 100%;

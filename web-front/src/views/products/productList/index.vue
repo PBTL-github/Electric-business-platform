@@ -1,53 +1,53 @@
 <script lang="ts" setup>
-import BlockWrapper from "@/components/block-wrapper/index.vue";
-import { ref, reactive, Ref } from "vue";
-import { ListQuery, defaultListQuery, StateTableData } from "./components/interface";
-import { stateData } from "./components/stateData";
-import { batchOperations } from "./components/batchOperation";
-import { PagingOption } from "./components/pagingOptions";
-import { ElMessage, ElMessageBox } from "element-plus";
+import BlockWrapper from '@/components/block-wrapper/index.vue';
+import { ref, reactive, Ref } from 'vue';
+import { ListQuery, defaultListQuery, StateTableData } from './components/interface';
+import { stateData } from './components/stateData';
+import { batchOperations } from './components/batchOperation';
+import { PagingOption } from './components/pagingOptions';
+import { ElMessage, ElMessageBox } from 'element-plus';
 
 /**
  * @description: 商品分类
  */
 const proAttrClassifitionOption = reactive([
   {
-    value: "guide",
-    label: "Guide",
+    value: 'guide',
+    label: 'Guide',
     children: [
       {
-        value: "disciplines",
-        label: "Disciplines",
+        value: 'disciplines',
+        label: 'Disciplines',
         children: [
           {
-            value: "consistency",
-            label: "Consistency",
+            value: 'consistency',
+            label: 'Consistency',
           },
           {
-            value: "feedback",
-            label: "Feedback",
+            value: 'feedback',
+            label: 'Feedback',
           },
           {
-            value: "efficiency",
-            label: "Efficiency",
+            value: 'efficiency',
+            label: 'Efficiency',
           },
           {
-            value: "controllability",
-            label: "Controllability",
+            value: 'controllability',
+            label: 'Controllability',
           },
         ],
       },
       {
-        value: "navigation",
-        label: "Navigation",
+        value: 'navigation',
+        label: 'Navigation',
         children: [
           {
-            value: "side nav",
-            label: "Side Navigation",
+            value: 'side nav',
+            label: 'Side Navigation',
           },
           {
-            value: "top nav",
-            label: "Top Navigation",
+            value: 'top nav',
+            label: 'Top Navigation',
           },
         ],
       },
@@ -61,11 +61,11 @@ const proAttrClassifitionOption = reactive([
 const publishStateOption = reactive([
   {
     value: 1,
-    label: "上架",
+    label: '上架',
   },
   {
     value: 0,
-    label: "下架",
+    label: '下架',
   },
 ]);
 
@@ -75,11 +75,11 @@ const publishStateOption = reactive([
 const reviewStateOption = reactive([
   {
     value: 1,
-    label: "审核通过",
+    label: '审核通过',
   },
   {
     value: 0,
-    label: "未审核",
+    label: '未审核',
   },
 ]);
 
@@ -104,7 +104,7 @@ const pagingOptions: PagingOption = reactive({
   pageSizes: [5, 10, 15],
   total: stateData.length,
   background: true,
-  layout: "total, sizes, prev, pager, next, jumper",
+  layout: 'total, sizes, prev, pager, next, jumper',
   /**
    * @description: 处理每页数目更改
    * @return {*}
@@ -135,7 +135,7 @@ const handleSelectionChange = (val: Array<StateTableData>): void => {
  */
 const updatePulishState = (isOn: 1 | 0, ids: Array<string>) => {
   for (let i = 0; i < ids.length; i++) {
-    stateData.forEach((item) => {
+    stateData.forEach(item => {
       if (item.id === ids[i]) {
         item.publishState = isOn;
       }
@@ -151,7 +151,7 @@ const updatePulishState = (isOn: 1 | 0, ids: Array<string>) => {
  */
 const updateRecommendState = (isOn: 1 | 0, ids: Array<string>) => {
   for (let i = 0; i < ids.length; i++) {
-    stateData.forEach((item) => {
+    stateData.forEach(item => {
       if (item.id === ids[i]) {
         item.recommandState = isOn;
       }
@@ -167,7 +167,7 @@ const updateRecommendState = (isOn: 1 | 0, ids: Array<string>) => {
  */
 const updateNewProState = (isOn: 1 | 0, ids: Array<string>) => {
   for (let i = 0; i < ids.length; i++) {
-    stateData.forEach((item) => {
+    stateData.forEach(item => {
       if (item.id === ids[i]) {
         item.newProState = isOn;
       }
@@ -179,57 +179,61 @@ const updateNewProState = (isOn: 1 | 0, ids: Array<string>) => {
 const handleBatch = () => {
   if (!batchOperateType.value) {
     ElMessage({
-      message: "请选择操作类型",
-      type: "warning",
+      message: '请选择操作类型',
+      type: 'warning',
       duration: 1500,
     });
     return;
   }
   if (multiSelection.length < 1) {
     ElMessage({
-      message: "请选择要操作的商品",
-      type: "warning",
+      message: '请选择要操作的商品',
+      type: 'warning',
       duration: 1500,
     });
     return;
   }
   ElMessageBox({
-    title: "提示",
-    message: "是否要进行该批量操作?",
-    type: "warning",
+    title: '提示',
+    message: '是否要进行该批量操作?',
+    type: 'warning',
     showCancelButton: true,
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
   }).then(() => {
     let ids = new Array<string>(multiSelection.length);
     for (let i = 0; i < multiSelection.length; i++) {
       ids[i] = multiSelection[i].id;
     }
     switch (batchOperateType.value) {
-      case "publishOn":
+      case 'publishOn':
         updatePulishState(1, ids);
         break;
-      case "publishOff":
+      case 'publishOff':
         updatePulishState(0, ids);
         break;
-      case "recommendOn":
+      case 'recommendOn':
         updateRecommendState(1, ids);
         break;
-      case "recommendOff":
+      case 'recommendOff':
         updateRecommendState(0, ids);
         break;
-      case "newProOn":
+      case 'newProOn':
         updateNewProState(1, ids);
         break;
-      case "newProOff":
+      case 'newProOff':
         updateNewProState(0, ids);
         break;
-      case "transferCategory":
+      case 'transferCategory':
         break;
-      case "recycle":
+      case 'recycle':
         break;
     }
   });
+};
+
+const selectProductSqlOption = () => {
+  console.log();
 };
 
 pagingOptions.handleSizeChange();
@@ -297,8 +301,9 @@ pagingOptions.handleSizeChange();
         <el-button
           @click="$router.push({ name: 'addProduct' })"
           style="float: right; margin-right: 20px"
-          >添加</el-button
         >
+          添加
+        </el-button>
       </div>
     </block-wrapper>
 
@@ -351,7 +356,13 @@ pagingOptions.handleSizeChange();
             {{ scope.row.sort }}
           </template>
         </el-table-column>
-        <el-table-column label="SKU库存" width="100" align="center"></el-table-column>
+        <el-table-column label="SKU库存" width="100" align="center">
+          <template #default="scope">
+            <el-button type="primary" circle>
+              <el-icon><EditPen /></el-icon>
+            </el-button>
+          </template>
+        </el-table-column>
         <el-table-column label="销量" width="100" align="center">
           <template #default="scope">
             {{ scope.row.sales }}
@@ -389,9 +400,9 @@ pagingOptions.handleSizeChange();
           :value="item.value"
         ></el-option>
       </el-select>
-      <el-button @click="handleBatch" style="margin-left: 10px" size="large" type="primary"
-        >确定</el-button
-      >
+      <el-button @click="handleBatch" style="margin-left: 10px" size="large" type="primary">
+        确定
+      </el-button>
     </div>
 
     <div class="paging-contain">

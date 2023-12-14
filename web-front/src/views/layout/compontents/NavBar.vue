@@ -1,22 +1,32 @@
 <script lang="ts" setup>
-import router from "@/router";
-import store from "@/store";
-import { Ref, reactive } from "vue";
-import { RouteRecordName, RouteRecordRaw } from "vue-router";
+import router from '@/router';
+import store from '@/store';
+import { Ref, reactive, ref } from 'vue';
+import { RouteRecordName, RouteRecordRaw } from 'vue-router';
 
 const menuList: Ref<Array<RouteRecordRaw>> = reactive(store.getters.getAdminRouters);
 
 const routerPush = (name: RouteRecordName) => {
   router.push({ name });
 };
+
+const props = withDefaults(
+  defineProps<{
+    isCollapse?: boolean;
+  }>(),
+  {
+    isCollapse: false,
+  }
+);
 </script>
 
 <template>
-  <el-scrollbar class="scroll">
+  <el-scrollbar class="scroll" :style="{ width: isCollapse ? '60px' : '180px' }">
     <nav class="menu-wrapper">
       <el-row class="tac">
         <el-col :span="24">
           <el-menu
+            :collapse="isCollapse"
             active-text-color="#409eff"
             background-color="#304156"
             :default-active="($route.meta.index as string)"
@@ -46,6 +56,7 @@ const routerPush = (name: RouteRecordName) => {
                     <el-icon><component :is="item.meta?.icon" /></el-icon>
                     <span>{{ item.meta?.title }}</span>
                   </el-menu-item>
+                  <!-- </el-menu-item-group> -->
                 </template>
               </el-sub-menu>
             </template>
@@ -59,10 +70,11 @@ const routerPush = (name: RouteRecordName) => {
 <style lang="scss" scoped>
 .scroll {
   & {
-    width: 200px;
+    transition: all 0.4s ease-in-out;
     height: 100vh;
     background-color: #304156;
     position: fixed;
+    z-index: 90;
   }
   .menu-wrapper {
     & {
@@ -81,6 +93,7 @@ const routerPush = (name: RouteRecordName) => {
         .el-menu {
           & {
             width: 100%;
+            border: none;
           }
           .el-sub-menu {
             & {

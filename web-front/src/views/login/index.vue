@@ -1,16 +1,15 @@
 <script lang="ts" setup>
-import { reactive, ref, Ref } from "vue";
-import { FormInstance, FormRules } from "element-plus";
-import { InternalRuleItem, Value } from "async-validator";
-import { User } from "@/utils/interface";
-import router from "@/router";
-import * as Api from "@/utils/apis/index";
+import { reactive, ref, Ref } from 'vue';
+import { FormInstance, FormRules } from 'element-plus';
+import { InternalRuleItem, Value } from 'async-validator';
+import { User } from '@/utils/interface';
+import * as Api from '@/utils/apis/index';
 
-const emit = defineEmits(["closeLogin"]);
+const emit = defineEmits(['closeLogin']);
 
 const userForm: User = reactive({
-  username: "",
-  password: "",
+  username: '',
+  password: '',
 });
 
 const userFormRef = ref<FormInstance>();
@@ -22,8 +21,8 @@ const checkUser = (
   value: Value,
   callback: (error?: string | Error) => void
 ) => {
-  if (value === "") {
-    callback(new Error("请输入用户名"));
+  if (value === '') {
+    callback(new Error('请输入用户名'));
   } else if (resCheck.value) {
     callback(new Error());
   } else {
@@ -36,40 +35,40 @@ const checkPass = (
   value: Value,
   callback: (error?: string | Error) => void
 ) => {
-  if (value === "") {
-    callback(new Error("请输入密码"));
+  if (value === '') {
+    callback(new Error('请输入密码'));
   } else if (resCheck.value) {
-    callback(new Error("用户名或密码错误！"));
+    callback(new Error('用户名或密码错误！'));
   } else {
     callback();
   }
 };
 
 const rules: FormRules = reactive({
-  username: [{ validator: checkUser, trigger: "blur" }],
-  password: [{ validator: checkPass, trigger: "blur" }],
+  username: [{ validator: checkUser, trigger: 'blur' }],
+  password: [{ validator: checkPass, trigger: 'blur' }],
 });
 
 const spaceDown = (e: KeyboardEvent) => {
-  if (e.key === " ") {
+  if (e.key === ' ') {
     e.preventDefault();
   }
 };
 
 const userLogin = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
-  formEl.validate(async (valid) => {
+  formEl.validate(async valid => {
     if (valid) {
-      await Api.UserLogin.Login(userForm).then(async (res) => {
+      await Api.UserLogin.Login(userForm).then(async res => {
         if (res.data.code !== 200) {
           resCheck.value = true;
-          formEl.validate((isVali) => {
+          formEl.validate(isVali => {
             if (!isVali) resCheck.value = false;
           });
         } else {
           resetUserForm(userFormRef.value);
-          localStorage.setItem("token", res.data.token);
-          emit("closeLogin", false);
+          localStorage.setItem('token', res.data.token);
+          emit('closeLogin', false);
         }
       });
     }

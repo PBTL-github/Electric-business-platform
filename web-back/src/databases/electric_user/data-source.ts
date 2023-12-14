@@ -7,7 +7,7 @@ export const ElectricUser = new DataSource({
   host: "localhost",
   port: 3306,
   username: "root",
-  password: "a335530520",
+  password: "123456",
   database: "electric_user",
   synchronize: true,
   logging: false,

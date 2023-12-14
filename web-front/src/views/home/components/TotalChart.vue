@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import ECharts from "echarts";
-import VChart from "vue-echarts";
-import { ref } from "vue";
-import { use } from "echarts/core";
-import { LineChart, LineSeriesOption } from "echarts/charts";
+import ECharts from 'echarts';
+import VChart from 'vue-echarts';
+import { Ref, ref } from 'vue';
+import { use } from 'echarts/core';
+import { LineChart, LineSeriesOption } from 'echarts/charts';
 import {
   GridComponent,
   GridComponentOption,
@@ -11,9 +11,9 @@ import {
   TooltipComponentOption,
   LegendComponent,
   LegendComponentOption,
-} from "echarts/components";
-import { CanvasRenderer } from "echarts/renderers";
-import { UniversalTransition } from "echarts/features";
+} from 'echarts/components';
+import { CanvasRenderer } from 'echarts/renderers';
+import { UniversalTransition } from 'echarts/features';
 
 use([
   GridComponent,
@@ -47,20 +47,20 @@ const Prop = defineProps({
 const setoption = (): EChartsOption => {
   return {
     tooltip: {
-      trigger: "axis",
+      trigger: 'axis',
       axisPointer: {
-        type: "cross",
+        type: 'cross',
       },
     },
     //   legend: {},
     grid: {
-      left: "3%",
-      right: "4%",
-      bottom: "3%",
+      left: '3%',
+      right: '4%',
+      bottom: '3%',
       containLabel: true,
     },
     xAxis: {
-      type: "category",
+      type: 'category',
       axisLabel: {
         showMaxLabel: true,
         interval: Math.ceil(Prop.xAxisData.length / 5),
@@ -70,15 +70,15 @@ const setoption = (): EChartsOption => {
     },
     yAxis: [
       {
-        name: "订单总金额(元)",
-        type: "value",
-        position: "right",
+        name: '订单总金额(元)',
+        type: 'value',
+        position: 'right',
         axisLine: {
           show: true,
           lineStyle: {
             width: 1,
-            type: "solid",
-            color: "#333",
+            type: 'solid',
+            color: '#333',
           },
         },
         min: 0,
@@ -86,14 +86,14 @@ const setoption = (): EChartsOption => {
         interval: Math.ceil((Math.max(...Prop.orderTotalList) * 1.3) / 4),
       },
       {
-        name: "订单数量(单)",
-        type: "value",
+        name: '订单数量(单)',
+        type: 'value',
         axisLine: {
           show: true,
           lineStyle: {
             width: 1,
-            type: "solid",
-            color: "#333",
+            type: 'solid',
+            color: '#333',
           },
         },
         min: 0,
@@ -103,44 +103,47 @@ const setoption = (): EChartsOption => {
     ],
     series: [
       {
-        name: "订单总金额",
-        type: "line",
+        name: '订单总金额',
+        type: 'line',
         areaStyle: {
-          color: "#5cc0e3",
+          color: '#5cc0e3',
           opacity: 1,
         },
         lineStyle: {
-          color: "#5cc0e3",
+          color: '#5cc0e3',
         },
         emphasis: {
-          focus: "none",
+          focus: 'none',
         },
         smooth: true,
         yAxisIndex: 0,
         data: Prop.orderTotalList,
+        // 防止鼠标事件响应
+        silent: true,
       },
       {
-        name: "订单数量",
-        type: "line",
+        name: '订单数量',
+        type: 'line',
         areaStyle: {
-          color: "#5ee1c6",
+          color: '#5ee1c6',
           opacity: 1,
         },
         lineStyle: {
-          color: "#5ee1c6",
+          color: '#5ee1c6',
         },
         emphasis: {
-          focus: "none",
+          focus: 'none',
         },
         smooth: true,
         yAxisIndex: 1,
         data: Prop.orderCountList,
+        silent: true,
       },
     ],
   };
 };
 
-const option = ref<EChartsOption>({});
+const option: Ref<EChartsOption> = ref<EChartsOption>({});
 
 setTimeout(() => {
   option.value = setoption();
@@ -148,7 +151,7 @@ setTimeout(() => {
 </script>
 
 <template>
-  <v-chart class="vchart" :option="option" />
+  <v-chart class="vchart" :option="(option as ECharts.EChartsOption)" />
 </template>
 
 <style lang="scss" scoped>
