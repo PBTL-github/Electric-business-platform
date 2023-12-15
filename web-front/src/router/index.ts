@@ -41,7 +41,7 @@ export const asyncRouterMap: Array<RouteRecordRaw> = [
       {
         path: 'products',
         name: 'products',
-        meta: { index: '1', title: '商品', icon: markRaw(Home48Filled) },
+        meta: { index: '1', title: '商品', icon: markRaw(Home48Filled), isActive: true },
         redirect: to => {
           return `${to.fullPath}/productList`;
         },

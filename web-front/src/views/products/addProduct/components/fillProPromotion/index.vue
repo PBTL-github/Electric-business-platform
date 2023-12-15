@@ -2,7 +2,7 @@
  * @Author: PBTL-github 2324009078@qq.com
  * @Date: 2023-12-12 22:05:24
  * @LastEditors: PBTL-github 2324009078@qq.com
- * @LastEditTime: 2023-12-14 17:41:11
+ * @LastEditTime: 2023-12-15 02:33:41
  * @FilePath: \web-front\src\views\products\addProduct\components\fillProPromotion\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -45,8 +45,6 @@ const beforeNextCheckRule = async (formEl: FormInstance | undefined) => {
 const returnPrevStep = () => {
   emit('change-steps', -1);
 };
-
-const handleDiscountsTags = ref('none');
 
 /**
  * @desc 计算不可使用时间, 可用返回false，不可用返回true
@@ -142,7 +140,7 @@ const deletefullReductionPriceListItem = (idx: number) => {
       />
     </el-form-item>
     <el-form-item label="选择优惠方式：" prop="select-discounts-mode">
-      <el-radio-group v-model="handleDiscountsTags">
+      <el-radio-group v-model="addGoodsForm.selectDiscountsMode">
         <el-radio-button label="none">无优惠</el-radio-button>
         <el-radio-button label="specialPromotion">特惠促销</el-radio-button>
         <el-radio-button label="memberPrice">会员价格</el-radio-button>
@@ -154,7 +152,7 @@ const deletefullReductionPriceListItem = (idx: number) => {
     <el-form-item
       prop="specialPromotion"
       class="discounts"
-      v-if="handleDiscountsTags == 'specialPromotion'"
+      v-if="addGoodsForm.selectDiscountsMode == 'specialPromotion'"
     >
       <el-form-item label-width="auto" label="开始时间：" prop="promotionStartTime">
         <el-date-picker
@@ -177,7 +175,7 @@ const deletefullReductionPriceListItem = (idx: number) => {
       </el-form-item>
     </el-form-item>
     <!-- 会员价格 -->
-    <el-form-item prop="memberPrice" class="discounts" v-if="handleDiscountsTags == 'memberPrice'">
+    <el-form-item prop="memberPrice" class="discounts" v-if="addGoodsForm.selectDiscountsMode == 'memberPrice'">
       <el-form-item label-width="auto" label="黄金会员：" prop="promotionStartTime">
         <el-input v-model="addGoodsForm.memberPrice[0].memberPice" />
       </el-form-item>
@@ -189,7 +187,7 @@ const deletefullReductionPriceListItem = (idx: number) => {
       </el-form-item>
     </el-form-item>
     <!-- 阶梯价格 -->
-    <el-form-item prop="levelPrice" style="width: 800px" v-if="handleDiscountsTags == 'level'">
+    <el-form-item prop="levelPrice" style="width: 800px" v-if="addGoodsForm.selectDiscountsMode == 'level'">
       <el-table
         :data="addGoodsForm.levelPriceList"
         :border="true"
@@ -227,7 +225,7 @@ const deletefullReductionPriceListItem = (idx: number) => {
     <el-form-item
       prop="fullReductionPrice"
       style="width: 800px"
-      v-if="handleDiscountsTags == 'fullReductionPrice'"
+      v-if="addGoodsForm.selectDiscountsMode == 'fullReductionPrice'"
     >
       <el-table
         :data="addGoodsForm.fullReductionPriceList"

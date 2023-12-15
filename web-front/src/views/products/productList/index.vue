@@ -312,30 +312,30 @@ pagingOptions.handleSizeChange();
         @selection-change="handleSelectionChange"
         :data="tableData[pagingOptions.currentPage - 1]"
         style="width: 100%"
-        border
+        :border="true"
       >
-        <el-table-column type="selection" width="60" align="center"></el-table-column>
-        <el-table-column label="编号" width="100" align="center">
+        <el-table-column type="selection" width="60" :align="'center'"></el-table-column>
+        <el-table-column label="编号" width="100" :align="'center'">
           <template #default="scope">{{ scope.row.id }}</template>
         </el-table-column>
-        <el-table-column label="商品图片" width="120" align="center">
+        <el-table-column label="商品图片" width="120" :align="'center'">
           <template #default="scope">
             <img style="height: 80px" :src="scope.row.pic" />
           </template>
         </el-table-column>
-        <el-table-column label="商品名称" align="center">
+        <el-table-column label="商品名称" :align="'center'">
           <template #default="scope">
             <p>{{ scope.row.name }}</p>
             <p>品牌: {{ scope.row.brandName }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="价格/货号" width="120" align="center">
+        <el-table-column label="价格/货号" width="120" :align="'center'">
           <template #default="scope">
             <p>价格：￥{{ scope.row.price }}</p>
             <p>货号：{{ scope.row.proNO }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="标签" width="140" align="center">
+        <el-table-column label="标签" width="140" :align="'center'">
           <template #default="scope">
             <p>
               上架：
@@ -351,24 +351,24 @@ pagingOptions.handleSizeChange();
             </p>
           </template>
         </el-table-column>
-        <el-table-column label="排序" width="100" align="center">
+        <el-table-column label="排序" width="100" :align="'center'">
           <template #default="scope">
             {{ scope.row.sort }}
           </template>
         </el-table-column>
-        <el-table-column label="SKU库存" width="100" align="center">
+        <el-table-column label="SKU库存" width="100" :align="'center'">
           <template #default="scope">
             <el-button type="primary" circle>
               <el-icon><EditPen /></el-icon>
             </el-button>
           </template>
         </el-table-column>
-        <el-table-column label="销量" width="100" align="center">
+        <el-table-column label="销量" width="100" :align="'center'">
           <template #default="scope">
             {{ scope.row.sales }}
           </template>
         </el-table-column>
-        <el-table-column label="审核状态" width="100" align="center">
+        <el-table-column label="审核状态" width="100" :align="'center'">
           <template #default="scope">
             <p>{{ scope.row.reviewState }}</p>
             <p>
@@ -376,7 +376,7 @@ pagingOptions.handleSizeChange();
             </p>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="160" align="center">
+        <el-table-column label="操作" width="160" :align="'center'">
           <template #default="scope">
             <p style="margin-bottom: 5px">
               <el-button size="small">查看</el-button>

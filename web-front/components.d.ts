@@ -9,6 +9,7 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     BlockWrapper: typeof import('./src/components/block-wrapper/index.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
+    ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
     ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem']
     ElButton: typeof import('element-plus/es')['ElButton']
@@ -19,6 +20,7 @@ declare module '@vue/runtime-core' {
     ElCol: typeof import('element-plus/es')['ElCol']
     ElContainer: typeof import('element-plus/es')['ElContainer']
     ElDatePicker: typeof import('element-plus/es')['ElDatePicker']
+    ElDialog: typeof import('element-plus/es')['ElDialog']
     ElForm: typeof import('element-plus/es')['ElForm']
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
     ElHeader: typeof import('element-plus/es')['ElHeader']

@@ -2,7 +2,7 @@
  * @Author: PBTL-github 2324009078@qq.com
  * @Date: 2023-12-13 16:21:20
  * @LastEditors: PBTL-github 2324009078@qq.com
- * @LastEditTime: 2023-12-14 16:43:40
+ * @LastEditTime: 2023-12-15 02:33:12
  * @FilePath: \web-front\src\views\products\addProduct\utils\interfaces.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -57,7 +57,8 @@ interface addGoodsRuleForm {
   promotionPrice?: number; // 促销价格
   memberPrice?: Array<memberPrice>; // 会员价格
   levelPriceList: Array<levelPriceList>; // 阶梯价格
-  fullReductionPriceList: Array<fullReductionPriceList> // 满减价格
+  fullReductionPriceList: Array<fullReductionPriceList>; // 满减价格
+  selectDiscountsMode: 'none' | 'specialPromotion' | 'memberPrice' | 'level' | 'fullReductionPrice'; // 选择优惠方式 无优惠 特惠促销 会员价格 阶梯价格 满减价格
 }
 
 export type { addGoodsRuleForm, GoodsRecommendation };

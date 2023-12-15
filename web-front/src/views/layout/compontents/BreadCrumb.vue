@@ -1,8 +1,8 @@
 <!--
  * @Author: PBTL 2324009078@qq.com
  * @Date: 2023-10-23 15:55:10
- * @LastEditors: PBTL 2324009078@qq.com
- * @LastEditTime: 2023-11-28 01:49:35
+ * @LastEditors: PBTL-github 2324009078@qq.com
+ * @LastEditTime: 2023-12-15 02:02:26
  * @FilePath: \web-front\src\views\layout\compontents\BreadCrumb.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -52,7 +52,13 @@ const handleIsCollapse = () => {
     <el-row>
       <el-col :span="23">
         <div @click="handleIsCollapse">
-          <hamburger-button :style="{transform: isCollapse? `rotate(90deg)` : `rotate(0deg)`}"  class="hamburger-button" theme="outline" size="24" fill="#333" />
+          <hamburger-button
+            :style="{ transform: isCollapse ? `rotate(90deg)` : `rotate(0deg)` }"
+            class="hamburger-button"
+            theme="outline"
+            size="24"
+            fill="#333"
+          />
         </div>
         <el-breadcrumb separator="/">
           <transition-group name="bread-crumb-item">
@@ -66,7 +72,13 @@ const handleIsCollapse = () => {
           </transition-group>
         </el-breadcrumb>
       </el-col>
-      <el-col :span="1">asdfad</el-col>
+      <el-col :span="1">
+        <el-avatar
+          shape="square"
+          size="default"
+          src="https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png"
+        />
+      </el-col>
     </el-row>
   </div>
 </template>
