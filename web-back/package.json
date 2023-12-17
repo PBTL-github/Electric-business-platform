@@ -1,34 +1,38 @@
 {
-   "name": "web-back",
-   "version": "0.0.1",
-   "description": "Awesome project developed with TypeORM.",
-   "type": "commonjs",
-   "devDependencies": {
-      "@types/node": "^16.11.10",
-      "ts-node": "10.7.0",
-      "typescript": "4.5.2"
-   },
-   "dependencies": {
-      "@koa/router": "^12.0.0",
-      "@types/jsonwebtoken": "^8.5.9",
-      "@types/koa": "^2.13.5",
-      "@types/koa-bodyparser": "^4.3.7",
-      "@types/koa-router": "^7.4.4",
-      "@types/uuid": "^8.3.4",
-      "jsonwebtoken": "^8.5.1",
-      "koa": "^2.13.4",
-      "koa-body": "^5.0.0",
-      "koa-bodyparser": "^4.3.0",
-      "koa-jwt": "^4.0.3",
-      "koa-router": "^12.0.0",
-      "mysql2": "^2.3.3",
-      "nodemon": "^2.0.20",
-      "reflect-metadata": "^0.1.13",
-      "typeorm": "0.3.10",
-      "uuid": "^9.0.0"
-   },
-   "scripts": {
-      "dev": "nodemon src/main.ts",
-      "typeorm": "typeorm-ts-node-commonjs"
-   }
+  "name": "web-back",
+  "version": "0.0.1",
+  "description": "Awesome project developed with TypeORM.",
+  "type": "commonjs",
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^16.11.10",
+    "ts-node": "10.7.0",
+    "typescript": "4.5.2"
+  },
+  "dependencies": {
+    "@koa/router": "^12.0.0",
+    "@types/jsonwebtoken": "^8.5.9",
+    "@types/koa": "^2.13.5",
+    "@types/koa-bodyparser": "^4.3.7",
+    "@types/koa-router": "^7.4.4",
+    "@types/uuid": "^8.3.4",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^8.5.1",
+    "koa": "^2.13.4",
+    "koa-body": "^5.0.0",
+    "koa-bodyparser": "^4.3.0",
+    "koa-jwt": "^4.0.3",
+    "koa-router": "^12.0.0",
+    "mysql2": "^2.3.3",
+    "nodemon": "^2.0.20",
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.3.17",
+    "typeorm-model-generator": "^0.4.6",
+    "uuid": "^9.0.0"
+  },
+  "scripts": {
+    "dev": "nodemon src/main.ts",
+    "typeorm": "typeorm-ts-node-commonjs",
+    "db": "rimraf -rf src/databases/entities & yarn typeorm-model-generator -h localhost -d mall -p 3306 -u root -x 123456 -e mysql -o src/databases/entities --noConfig true --ce pascal --cp camel"
+  }
 }

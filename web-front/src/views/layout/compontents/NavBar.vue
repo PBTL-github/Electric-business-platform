@@ -33,32 +33,35 @@ const props = withDefaults(
             text-color="#bfcbd9"
           >
             <template v-for="(menuItem, idx) in menuList[0].children" :key="idx">
-              <el-menu-item
-                v-if="!menuItem.children"
-                :index="`${idx}`"
-                @click="routerPush(menuItem.name)"
-              >
-                <el-icon><component :is="menuItem.meta?.icon" /></el-icon>
-                <span>{{ menuItem.meta?.title }}</span>
-              </el-menu-item>
-              <el-sub-menu v-else :index="`${idx}`">
-                <template #title>
+              <template v-if="menuItem.meta.isActive != 0">
+                <el-menu-item
+                  v-if="!menuItem.children"
+                  :index="`${idx}`"
+                  @click="routerPush(menuItem.name)"
+                >
                   <el-icon><component :is="menuItem.meta?.icon" /></el-icon>
                   <span>{{ menuItem.meta?.title }}</span>
-                </template>
-                <template v-if="menuItem.children">
-                  <el-menu-item
-                    v-for="(item, index) in menuItem.children"
-                    :index="`${idx}-${index}`"
-                    :key="index"
-                    @click="routerPush(item.name)"
-                  >
-                    <el-icon><component :is="item.meta?.icon" /></el-icon>
-                    <span>{{ item.meta?.title }}</span>
-                  </el-menu-item>
-                  <!-- </el-menu-item-group> -->
-                </template>
-              </el-sub-menu>
+                </el-menu-item>
+                <el-sub-menu v-else :index="`${idx}`">
+                  <template #title>
+                    <el-icon><component :is="menuItem.meta?.icon" /></el-icon>
+                    <span>{{ menuItem.meta?.title }}</span>
+                  </template>
+                  <template v-if="menuItem.children">
+                    <template v-for="(item, index) in menuItem.children" :key="index">
+                      <el-menu-item
+                        v-if="item.meta.isActive != 0"
+                        :index="`${idx}-${index}`"
+                        @click="routerPush(item.name)"
+                      >
+                        <el-icon><component :is="item.meta?.icon" /></el-icon>
+                        <span>{{ item.meta?.title }}</span>
+                      </el-menu-item>
+                    </template>
+                    <!-- </el-menu-item-group> -->
+                  </template>
+                </el-sub-menu>
+              </template>
             </template>
           </el-menu>
         </el-col>
