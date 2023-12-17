@@ -4,6 +4,7 @@ import { FormInstance, FormRules } from 'element-plus';
 import { InternalRuleItem, Value } from 'async-validator';
 import { User } from '@/utils/interface';
 import * as Api from '@/utils/apis/index';
+import router, { asyncRouterMap } from '@/router';
 
 const emit = defineEmits(['closeLogin']);
 
@@ -68,6 +69,9 @@ const userLogin = async (formEl: FormInstance | undefined) => {
         } else {
           resetUserForm(userFormRef.value);
           localStorage.setItem('token', res.data.token);
+          asyncRouterMap.forEach(routerItem => {
+            router.addRoute(routerItem);
+          });
           emit('closeLogin', false);
         }
       });

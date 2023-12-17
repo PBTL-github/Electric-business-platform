@@ -2,7 +2,7 @@
  * @Author: PBTL 2324009078@qq.com
  * @Date: 2023-10-23 15:55:10
  * @LastEditors: PBTL-github 2324009078@qq.com
- * @LastEditTime: 2023-12-15 02:02:26
+ * @LastEditTime: 2023-12-17 20:40:20
  * @FilePath: \web-front\src\views\layout\compontents\BreadCrumb.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -45,6 +45,14 @@ const handleIsCollapse = () => {
   isCollapse.value = !isCollapse.value;
   emit('on-click', isCollapse.value);
 };
+
+const gotoHome = () => {
+  router.push({ name: 'home' });
+};
+const exit = () => {
+  localStorage.removeItem('token');
+  router.go(0);
+};
 </script>
 
 <template>
@@ -73,11 +81,24 @@ const handleIsCollapse = () => {
         </el-breadcrumb>
       </el-col>
       <el-col :span="1">
-        <el-avatar
-          shape="square"
-          size="default"
-          src="https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png"
-        />
+        <el-dropdown trigger="click">
+          <span class="el-dropdown-link">
+            <el-avatar
+              shape="square"
+              size="default"
+              src="https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png"
+            />
+            <el-icon class="el-icon--right">
+              <arrow-down />
+            </el-icon>
+          </span>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item @click="gotoHome">首页</el-dropdown-item>
+              <el-dropdown-item @click="exit">登出</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
       </el-col>
     </el-row>
   </div>
@@ -125,6 +146,11 @@ const handleIsCollapse = () => {
         & {
           padding-left: 20px;
         }
+      }
+      .el-dropdown .el-dropdown-link {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
       }
     }
   }

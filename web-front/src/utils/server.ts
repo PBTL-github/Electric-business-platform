@@ -2,7 +2,7 @@
  * @Author: PBTL-github 2324009078@qq.com
  * @Date: 2023-12-12 22:05:24
  * @LastEditors: PBTL-github 2324009078@qq.com
- * @LastEditTime: 2023-12-17 02:05:14
+ * @LastEditTime: 2023-12-17 20:32:00
  * @FilePath: \web-front\src\utils\server.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -15,11 +15,12 @@ server.interceptors.request.use(
   config => {
     const token = localStorage.getItem('token');
     if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
+      config.headers['Authorization'] = token;
+    } else if (config.data.username) {
+      return config;
     } else {
       return Promise.reject(new Error(`Token不存在， 无法被访问`));
     }
-    return config;
   },
   error => {
     console.log(error);

@@ -4,7 +4,7 @@ import { Home48Filled } from '@vicons/fluent';
 import { ClipboardList } from '@vicons/fa';
 import { markRaw } from 'vue';
 
-const constantRouterMap: Array<RouteRecordRaw> = [
+export const constantRouterMap: Array<RouteRecordRaw> = [
   {
     path: '/',
     redirect: '/login',
